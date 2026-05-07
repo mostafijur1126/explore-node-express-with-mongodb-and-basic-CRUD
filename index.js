@@ -29,17 +29,26 @@ async function run() {
     });
 
     app.get("/users/:id", async (req, res) => {
-      console.log(req);
+      // console.log(req);
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const user = await usersClection.findOne(query);
       res.send(user);
     });
+
+    app.post("/users", async (req, res) => {
+      const newUser = req.body;
+      // console.log(newUser, "user to be inserted");
+      const result = await usersClection.insertOne(newUser);
+      res.send(result);
+    });
+
     app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
       const query = {
         _id: new ObjectId(id),
       };
+
       const result = await usersClection.deleteOne(query);
       res.send(result);
     });
